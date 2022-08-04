@@ -13,7 +13,7 @@ var promoRouter = require('./routes/promoRouter');
 var leaderRouter = require('./routes/leaderRouter');
 var favoriteRouter=require('./routes/favoriteRouter');
 var commentRouter = require('./routes/commentRouter');
- var feedbackRouter= require('./routes/feedbackRouter');
+var feedbackRouter= require('./routes/feedbackRouter');
  
 
 var session = require('express-session');
@@ -27,6 +27,7 @@ const cors = require('cors');
 
 app.use(cors());
 
+
 const mongoose = require('mongoose');
 mongoose.Promise = require('bluebird'); 
 
@@ -35,12 +36,14 @@ const Dishes = require('./models/dishes');
 const url = config.mongoUrl;
 
 
-const connect = mongoose.connect(url, {useMongoClient:true});
+const connect = mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true
 }));
+
+mongoose.set("useCreateIndex", true);
 
 // Secure traffic only
 app.all('*', (req, res, next) => {
